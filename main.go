@@ -64,6 +64,12 @@ func CostAlert(ctx context.Context, m PubSubMessage) error {
 	if err := json.Unmarshal(m.Data, &alertData); err != nil {
 		panic(err)
 	}
+	if alertData.AlertThresholdExceeded == 0.0 {
+		// NOTE:
+		// When the amount does not exceed the threshold,
+		// Pub/Sub message does not have this key.
+		return nil
+	}
 	messageString := createNotificationString(alertData)
 	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
 	err := sendMessageToSlack(webhookURL, messageString)
