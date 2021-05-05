@@ -1,4 +1,4 @@
-# gcp-cost-notification
+# gcp-cost-alert
 
 ![](sample_image.png)
 
