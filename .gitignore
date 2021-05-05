@@ -20,3 +20,5 @@
 .vscode
 .env
 env.yaml
+
+.DS_Store
