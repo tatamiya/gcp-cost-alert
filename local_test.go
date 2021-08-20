@@ -36,3 +36,14 @@ func TestCostAlert(t *testing.T) {
 	err = CostAlert(context.Background(), m)
 	assert.Nil(t, err)
 }
+
+func TestNotificationIsNotSentWhenPayloadIsEmpty(t *testing.T) {
+
+	sampleData := PubSubData{}
+	s, err := json.Marshal(sampleData)
+	m := pubsub.Message{
+		Data: s,
+	}
+	err = CostAlert(context.Background(), m)
+	assert.Nil(t, err)
+}
