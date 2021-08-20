@@ -107,11 +107,3 @@ func TestCreateUnexpectedAlertDescriptionCorrectly(t *testing.T) {
 	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
 	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
 }
-
-// func TestSlackPost(t *testing.T) {
-// 	inputURL := os.Getenv("SLACK_WEBHOOK_URL")
-// 	inputMessage := "test\nこれはテスト投稿です。"
-//
-// 	err := sendMessageToSlack(inputURL, inputMessage)
-// 	assert.Nil(t, err)
-// }

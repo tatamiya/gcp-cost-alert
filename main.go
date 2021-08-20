@@ -90,12 +90,21 @@ func (d *AlertDescription) AsMessage() string {
 
 }
 
-func sendMessageToSlack(webhookURL string, messageText string) error {
+type SlackNotifier struct {
+	webhookURL string
+}
+
+func (s *SlackNotifier) Send(message string) error {
 	msg := slack.WebhookMessage{
-		Text: messageText,
+		Text: message,
 	}
-	err := slack.PostWebhook(webhookURL, &msg)
+	err := slack.PostWebhook(s.webhookURL, &msg)
 	return err
+}
+
+func NewSlackNotifier() *SlackNotifier {
+	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
+	return &SlackNotifier{webhookURL: webhookURL}
 }
 
 func CostAlert(ctx context.Context, m pubsub.Message) error {
@@ -115,9 +124,10 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 		log.Printf("Unexpected AlertLevel! Input payload: %v", alertData)
 		return fmt.Errorf("Unexpected AlertLevel with charged cost %s!", alertDescription.Charged)
 	}
-	messageString := alertDescription.AsMessage()
-	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
-	err := sendMessageToSlack(webhookURL, messageString)
+	message := alertDescription.AsMessage()
+
+	notifier := NewSlackNotifier()
+	err := notifier.Send(message)
 	if err != nil {
 		log.Print(err)
 		return err
