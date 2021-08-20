@@ -11,7 +11,15 @@ import (
 )
 
 func TestCostAlert(t *testing.T) {
-	sampleData := PubSubData{
+	sampleData := struct {
+		BudgetDisplayName      string    `json:"budgetDisplayName"`
+		AlertThresholdExceeded float64   `json:"alertThresholdExceeded"`
+		CostAmount             float64   `json:"costAmount"`
+		CostIntervalStart      time.Time `json:"costIntervalStart"`
+		BudgetAmount           float64   `json:"budgetAmount"`
+		BudgetAmountType       string    `json:"budgetAmountType"`
+		CurrencyCode           string    `json:"currencyCode"`
+	}{
 		BudgetDisplayName:      "name-of-budget",
 		AlertThresholdExceeded: 1.0,
 		CostAmount:             100.01,
@@ -20,6 +28,7 @@ func TestCostAlert(t *testing.T) {
 		BudgetAmountType:       "SPECIFIED_AMOUNT",
 		CurrencyCode:           "USD",
 	}
+
 	s, err := json.Marshal(sampleData)
 	m := pubsub.Message{
 		Data: s,

@@ -2,19 +2,15 @@ package gcp_cost_alert
 
 import (
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateNotificationString(t *testing.T) {
 	inputAlertPayload := PubSubData{
-		BudgetDisplayName:      "name-of-budget",
 		AlertThresholdExceeded: 1.0,
 		CostAmount:             100.01,
-		CostIntervalStart:      time.Date(2019, 1, 1, 0, 0, 0, 0, time.UTC),
 		BudgetAmount:           100.00,
-		BudgetAmountType:       "SPECIFIED_AMOUNT",
 		CurrencyCode:           "USD",
 	}
 
@@ -26,12 +22,9 @@ func TestCreateNotificationString(t *testing.T) {
 
 func TestCreateNotificationStringAlertMiddle(t *testing.T) {
 	inputAlertPayload := PubSubData{
-		BudgetDisplayName:      "name-of-budget",
 		AlertThresholdExceeded: 0.9,
 		CostAmount:             90.24,
-		CostIntervalStart:      time.Date(2019, 1, 1, 0, 0, 0, 0, time.UTC),
 		BudgetAmount:           100.00,
-		BudgetAmountType:       "SPECIFIED_AMOUNT",
 		CurrencyCode:           "JPY",
 	}
 
@@ -43,12 +36,9 @@ func TestCreateNotificationStringAlertMiddle(t *testing.T) {
 
 func TestCreateNotificationStringAlertLow(t *testing.T) {
 	inputAlertPayload := PubSubData{
-		BudgetDisplayName:      "name-of-budget",
 		AlertThresholdExceeded: 0.40,
 		CostAmount:             1012.01,
-		CostIntervalStart:      time.Date(2019, 1, 1, 0, 0, 0, 0, time.UTC),
 		BudgetAmount:           2500.00,
-		BudgetAmountType:       "SPECIFIED_AMOUNT",
 		CurrencyCode:           "JPY",
 	}
 

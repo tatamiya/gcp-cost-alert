@@ -6,20 +6,16 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/slack-go/slack"
 )
 
 type PubSubData struct {
-	BudgetDisplayName      string    `json:"budgetDisplayName"`
-	AlertThresholdExceeded float64   `json:"alertThresholdExceeded"`
-	CostAmount             float64   `json:"costAmount"`
-	CostIntervalStart      time.Time `json:"costIntervalStart"`
-	BudgetAmount           float64   `json:"budgetAmount"`
-	BudgetAmountType       string    `json:"budgetAmountType"`
-	CurrencyCode           string    `json:"currencyCode"`
+	AlertThresholdExceeded float64 `json:"alertThresholdExceeded"`
+	CostAmount             float64 `json:"costAmount"`
+	BudgetAmount           float64 `json:"budgetAmount"`
+	CurrencyCode           string  `json:"currencyCode"`
 }
 
 func generateHeadLine(threshold float64) string {
