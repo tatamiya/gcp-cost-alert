@@ -107,6 +107,29 @@ func NewSlackNotifier() *SlackNotifier {
 	return &SlackNotifier{webhookURL: webhookURL}
 }
 
+type Notifier interface {
+	Send(message string) error
+}
+
+func alertNotification(payload *PubSubData, notifier Notifier) error {
+
+	alertDescription := NewAlertDescription(payload)
+	if alertDescription.AlertLevel == Unexpected {
+		log.Printf("Unexpected AlertLevel! Input payload: %v", payload)
+		return fmt.Errorf("Unexpected AlertLevel with charged cost %s!", alertDescription.Charged)
+	}
+	message := alertDescription.AsMessage()
+
+	err := notifier.Send(message)
+	if err != nil {
+		log.Print(err)
+		return err
+	}
+
+	return nil
+
+}
+
 func CostAlert(ctx context.Context, m pubsub.Message) error {
 
 	var alertData PubSubData
@@ -119,19 +142,8 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 		// Pub/Sub message does not have this key.
 		return nil
 	}
-	alertDescription := NewAlertDescription(&alertData)
-	if alertDescription.AlertLevel == Unexpected {
-		log.Printf("Unexpected AlertLevel! Input payload: %v", alertData)
-		return fmt.Errorf("Unexpected AlertLevel with charged cost %s!", alertDescription.Charged)
-	}
-	message := alertDescription.AsMessage()
+	slackNotifier := NewSlackNotifier()
+	err := alertNotification(&alertData, slackNotifier)
 
-	notifier := NewSlackNotifier()
-	err := notifier.Send(message)
-	if err != nil {
-		log.Print(err)
-		return err
-	}
-
-	return nil
+	return err
 }
