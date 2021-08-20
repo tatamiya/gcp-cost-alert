@@ -18,6 +18,39 @@ type PubSubData struct {
 	CurrencyCode           string  `json:"currencyCode"`
 }
 
+type Cost struct {
+	Amount       float32
+	CurrencyCode string
+}
+
+type AlertLevel int
+
+const (
+	Unexpected AlertLevel = iota
+	Low
+	Middle
+	High
+)
+
+func newAlertLevel(threshold float64) AlertLevel {
+	switch {
+	case threshold <= 0.5:
+		return Low
+	case threshold < 1.0:
+		return Middle
+	case threshold >= 1.0:
+		return High
+	default:
+		return Unexpected
+	}
+}
+
+type AlertDescription struct {
+	Charged *Cost
+	Budget  *Cost
+	Level   AlertLevel
+}
+
 func generateHeadLine(threshold float64) string {
 	switch {
 	case threshold <= 0.5:
