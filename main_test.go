@@ -6,6 +6,70 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
+	inputAlertPayload := PubSubData{
+		AlertThresholdExceeded: 1.0,
+		CostAmount:             100.01,
+		BudgetAmount:           100.00,
+		CurrencyCode:           "JPY",
+	}
+	expectedAlertDescription := &AlertDescription{
+		Charged: &Cost{100.01, "JPY"},
+		Budget:  &Cost{100.00, "JPY"},
+		Level:   High,
+	}
+	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
+	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
+}
+
+func TestCreateMiddleAlertDescriptionCorrectly(t *testing.T) {
+	inputAlertPayload := PubSubData{
+		AlertThresholdExceeded: 0.5,
+		CostAmount:             60.24,
+		BudgetAmount:           100.00,
+		CurrencyCode:           "JPY",
+	}
+	expectedAlertDescription := &AlertDescription{
+		Charged: &Cost{60.24, "JPY"},
+		Budget:  &Cost{50.00, "JPY"},
+		Level:   Middle,
+	}
+	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
+	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
+}
+
+func TestCreateLowAlertDescriptionCorrectly(t *testing.T) {
+	inputAlertPayload := PubSubData{
+		AlertThresholdExceeded: 0.2,
+		CostAmount:             31.42,
+		BudgetAmount:           100.00,
+		CurrencyCode:           "JPY",
+	}
+	expectedAlertDescription := &AlertDescription{
+		Charged: &Cost{31.42, "JPY"},
+		Budget:  &Cost{20.00, "JPY"},
+		Level:   Low,
+	}
+	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
+	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
+}
+
+func TestCreateUnexpectedAlertDescriptionCorrectly(t *testing.T) {
+	inputAlertPayload := PubSubData{
+		AlertThresholdExceeded: 0.0,
+		CostAmount:             0.00,
+		BudgetAmount:           100.00,
+		CurrencyCode:           "JPY",
+	}
+	expectedAlertDescription := &AlertDescription{
+		Charged: &Cost{0.00, "JPY"},
+		Budget:  &Cost{0.00, "JPY"},
+		Level:   Unexpected,
+	}
+	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
+	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
+}
+
 func TestCreateNotificationString(t *testing.T) {
 	inputAlertPayload := PubSubData{
 		AlertThresholdExceeded: 1.0,

@@ -19,7 +19,7 @@ type PubSubData struct {
 }
 
 type Cost struct {
-	Amount       float32
+	Amount       float64
 	CurrencyCode string
 }
 
@@ -36,7 +36,7 @@ func newAlertLevel(threshold float64) AlertLevel {
 	switch {
 	case threshold >= 0.2 && threshold < 0.5:
 		return Low
-	case threshold < 1.0:
+	case threshold >= 0.5 && threshold < 1.0:
 		return Middle
 	case threshold >= 1.0:
 		return High
@@ -49,6 +49,19 @@ type AlertDescription struct {
 	Charged *Cost
 	Budget  *Cost
 	Level   AlertLevel
+}
+
+func NewAlertDescription(payload *PubSubData) *AlertDescription {
+	level := newAlertLevel(payload.AlertThresholdExceeded)
+	unit := payload.CurrencyCode
+	charged := payload.CostAmount
+	budget := payload.BudgetAmount * payload.AlertThresholdExceeded
+
+	return &AlertDescription{
+		Charged: &Cost{charged, unit},
+		Budget:  &Cost{budget, unit},
+		Level:   level,
+	}
 }
 
 func generateHeadLine(threshold float64) string {
