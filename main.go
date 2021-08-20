@@ -23,6 +23,10 @@ type Cost struct {
 	CurrencyCode string
 }
 
+func (c *Cost) String() string {
+	return fmt.Sprintf("%.2f %s", c.Amount, c.CurrencyCode)
+}
+
 type AlertLevel int
 
 const (
@@ -45,10 +49,23 @@ func newAlertLevel(threshold float64) AlertLevel {
 	}
 }
 
+func (l *AlertLevel) headline() string {
+	switch *l {
+	case Low:
+		return ":warning: 注意 :warning:"
+	case Middle:
+		return ":rotating_light: 警報 :rotating_light:"
+	case High:
+		return ":fire::fire::fire: 警告 :fire::fire::fire:"
+	default:
+		return ":asyncparrot:"
+	}
+}
+
 type AlertDescription struct {
 	Charged *Cost
 	Budget  *Cost
-	Level   AlertLevel
+	AlertLevel
 }
 
 func NewAlertDescription(payload *PubSubData) *AlertDescription {
@@ -58,10 +75,19 @@ func NewAlertDescription(payload *PubSubData) *AlertDescription {
 	budget := payload.BudgetAmount * payload.AlertThresholdExceeded
 
 	return &AlertDescription{
-		Charged: &Cost{charged, unit},
-		Budget:  &Cost{budget, unit},
-		Level:   level,
+		Charged:    &Cost{charged, unit},
+		Budget:     &Cost{budget, unit},
+		AlertLevel: level,
 	}
+}
+
+func (d *AlertDescription) AsMessage() string {
+	headLine := d.headline()
+
+	messageBody := fmt.Sprintf(":money_with_wings: GCP 利用額が %s を超過しました！（現在 %s）", d.Budget, d.Charged)
+
+	return fmt.Sprintf("%s\n%s", headLine, messageBody)
+
 }
 
 func generateHeadLine(threshold float64) string {
