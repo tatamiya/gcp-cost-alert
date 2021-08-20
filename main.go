@@ -34,7 +34,7 @@ const (
 
 func newAlertLevel(threshold float64) AlertLevel {
 	switch {
-	case threshold <= 0.5:
+	case threshold >= 0.2 && threshold < 0.5:
 		return Low
 	case threshold < 1.0:
 		return Middle
