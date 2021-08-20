@@ -90,31 +90,6 @@ func (d *AlertDescription) AsMessage() string {
 
 }
 
-func generateHeadLine(threshold float64) string {
-	switch {
-	case threshold <= 0.5:
-		return ":warning: 注意 :warning:"
-	case threshold < 1.0:
-		return ":rotating_light: 警報 :rotating_light:"
-	case threshold >= 1.0:
-		return ":fire::fire::fire: 警告 :fire::fire::fire:"
-	default:
-		return ":asyncparrot:"
-	}
-}
-
-func createNotificationString(alertMessage PubSubData) string {
-
-	headLine := generateHeadLine(alertMessage.AlertThresholdExceeded)
-
-	budget := alertMessage.BudgetAmount * alertMessage.AlertThresholdExceeded
-	amount := alertMessage.CostAmount
-	currency := alertMessage.CurrencyCode
-	messageBody := fmt.Sprintf(":money_with_wings: GCP 利用額が %.2f %s を超過しました！（現在 %.2f %s）", budget, currency, amount, currency)
-
-	return fmt.Sprintf("%s\n%s", headLine, messageBody)
-}
-
 func sendMessageToSlack(webhookURL string, messageText string) error {
 	msg := slack.WebhookMessage{
 		Text: messageText,
@@ -135,7 +110,8 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 		// Pub/Sub message does not have this key.
 		return nil
 	}
-	messageString := createNotificationString(alertData)
+	alertDescription := NewAlertDescription(&alertData)
+	messageString := alertDescription.AsMessage()
 	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
 	err := sendMessageToSlack(webhookURL, messageString)
 	if err != nil {
