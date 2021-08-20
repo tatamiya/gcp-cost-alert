@@ -111,6 +111,10 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 		return nil
 	}
 	alertDescription := NewAlertDescription(&alertData)
+	if alertDescription.AlertLevel == Unexpected {
+		log.Printf("Unexpected AlertLevel! Input payload: %v", alertData)
+		return fmt.Errorf("Unexpected AlertLevel with charged cost %s!", alertDescription.Charged)
+	}
 	messageString := alertDescription.AsMessage()
 	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
 	err := sendMessageToSlack(webhookURL, messageString)
