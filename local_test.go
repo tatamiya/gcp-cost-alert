@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"cloud.google.com/go/pubsub"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,7 +21,7 @@ func TestCostAlert(t *testing.T) {
 		CurrencyCode:           "USD",
 	}
 	s, err := json.Marshal(sampleData)
-	m := PubSubMessage{
+	m := pubsub.Message{
 		Data: s,
 	}
 	err = CostAlert(context.Background(), m)

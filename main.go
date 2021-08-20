@@ -8,12 +8,9 @@ import (
 	"os"
 	"time"
 
+	"cloud.google.com/go/pubsub"
 	"github.com/slack-go/slack"
 )
-
-type PubSubMessage struct {
-	Data []byte `json:"data"`
-}
 
 type PubSubData struct {
 	BudgetDisplayName      string    `json:"budgetDisplayName"`
@@ -58,7 +55,7 @@ func sendMessageToSlack(webhookURL string, messageText string) error {
 	return err
 }
 
-func CostAlert(ctx context.Context, m PubSubMessage) error {
+func CostAlert(ctx context.Context, m pubsub.Message) error {
 
 	var alertData PubSubData
 	if err := json.Unmarshal(m.Data, &alertData); err != nil {
