@@ -10,7 +10,7 @@ import (
 	"github.com/tatamiya/gcp-cost-notification/src/notification"
 )
 
-type PubSubData struct {
+type PubSubPayload struct {
 	AlertThresholdExceeded float64 `json:"alertThresholdExceeded"`
 	CostAmount             float64 `json:"costAmount"`
 	BudgetAmount           float64 `json:"budgetAmount"`
@@ -67,7 +67,7 @@ type AlertDescription struct {
 	AlertLevel
 }
 
-func NewAlertDescription(payload *PubSubData) *AlertDescription {
+func NewAlertDescription(payload *PubSubPayload) *AlertDescription {
 	level := newAlertLevel(payload.AlertThresholdExceeded)
 	unit := payload.CurrencyCode
 	charged := payload.CostAmount
@@ -93,7 +93,7 @@ type Notifier interface {
 	Send(message string) error
 }
 
-func alertNotification(payload *PubSubData, notifier Notifier) error {
+func alertNotification(payload *PubSubPayload, notifier Notifier) error {
 
 	alertDescription := NewAlertDescription(payload)
 	if alertDescription.AlertLevel == Unexpected {
@@ -114,18 +114,18 @@ func alertNotification(payload *PubSubData, notifier Notifier) error {
 
 func CostAlert(ctx context.Context, m pubsub.Message) error {
 
-	var alertData PubSubData
-	if err := json.Unmarshal(m.Data, &alertData); err != nil {
+	var payload PubSubPayload
+	if err := json.Unmarshal(m.Data, &payload); err != nil {
 		panic(err)
 	}
-	if alertData.AlertThresholdExceeded == 0.0 {
+	if payload.AlertThresholdExceeded == 0.0 {
 		// NOTE:
 		// When the amount does not exceed the threshold,
 		// Pub/Sub message does not have this key.
 		return nil
 	}
 	slackNotifier := notification.NewSlackNotifier()
-	err := alertNotification(&alertData, slackNotifier)
+	err := alertNotification(&payload, slackNotifier)
 
 	return err
 }

@@ -39,7 +39,7 @@ func TestCostAlert(t *testing.T) {
 
 func TestNotificationIsNotSentWhenPayloadIsEmpty(t *testing.T) {
 
-	sampleData := PubSubData{}
+	sampleData := PubSubPayload{}
 	s, err := json.Marshal(sampleData)
 	m := pubsub.Message{
 		Data: s,
