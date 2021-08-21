@@ -15,6 +15,7 @@
 
 *_test.go
 README.md
+Makefile
 
 node_modules
 #!include:.gitignore
