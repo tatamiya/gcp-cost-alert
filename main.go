@@ -5,10 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/slack-go/slack"
+	"github.com/tatamiya/gcp-cost-notification/src/notification"
 )
 
 type PubSubData struct {
@@ -90,23 +89,6 @@ func (d *AlertDescription) AsMessage() string {
 
 }
 
-type SlackNotifier struct {
-	webhookURL string
-}
-
-func (s *SlackNotifier) Send(message string) error {
-	msg := slack.WebhookMessage{
-		Text: message,
-	}
-	err := slack.PostWebhook(s.webhookURL, &msg)
-	return err
-}
-
-func NewSlackNotifier() *SlackNotifier {
-	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
-	return &SlackNotifier{webhookURL: webhookURL}
-}
-
 type Notifier interface {
 	Send(message string) error
 }
@@ -142,7 +124,7 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 		// Pub/Sub message does not have this key.
 		return nil
 	}
-	slackNotifier := NewSlackNotifier()
+	slackNotifier := notification.NewSlackNotifier()
 	err := alertNotification(&alertData, slackNotifier)
 
 	return err
