@@ -12,6 +12,9 @@ import (
 )
 
 func TestCostAlert(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping")
+	}
 	sampleData := struct {
 		BudgetDisplayName      string    `json:"budgetDisplayName"`
 		AlertThresholdExceeded float64   `json:"alertThresholdExceeded"`
@@ -39,6 +42,10 @@ func TestCostAlert(t *testing.T) {
 }
 
 func TestNotificationIsNotSentWhenPayloadIsEmpty(t *testing.T) {
+
+	if testing.Short() {
+		t.Skip("Skipping")
+	}
 
 	sampleData := data.PubSubPayload{}
 	s, err := json.Marshal(sampleData)
