@@ -5,10 +5,11 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/tatamiya/gcp-cost-notification/src/data"
 )
 
 func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 1.0,
 		CostAmount:             100.01,
 		BudgetAmount:           100.00,
@@ -36,7 +37,7 @@ func TestCreateHighAlertMessageCorrectly(t *testing.T) {
 }
 
 func TestCreateMiddleAlertDescriptionCorrectly(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 0.5,
 		CostAmount:             60.24,
 		BudgetAmount:           100.00,
@@ -65,7 +66,7 @@ func TestCreateMiddleAlertMessageCorrectly(t *testing.T) {
 }
 
 func TestCreateLowAlertDescriptionCorrectly(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 0.2,
 		CostAmount:             31.42,
 		BudgetAmount:           100.00,
@@ -94,7 +95,7 @@ func TestCreateLowAlertMessageCorrectly(t *testing.T) {
 }
 
 func TestCreateUnexpectedAlertDescriptionCorrectly(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 0.0,
 		CostAmount:             0.00,
 		BudgetAmount:           100.00,
@@ -123,7 +124,7 @@ func (n *notifierStub) Send(message string) error {
 }
 
 func TestRunWholeProcessCorrectly(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 1.0,
 		CostAmount:             100.01,
 		BudgetAmount:           100.00,
@@ -139,7 +140,7 @@ func TestRunWholeProcessCorrectly(t *testing.T) {
 }
 
 func TestReturnErrorWhenZeroAlertThresholdIsInput(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 0.0,
 		CostAmount:             0.00,
 		BudgetAmount:           0.00,
@@ -157,7 +158,7 @@ func TestReturnErrorWhenZeroAlertThresholdIsInput(t *testing.T) {
 }
 
 func TestReturnErrorWhenSlackNotificationFailed(t *testing.T) {
-	inputAlertPayload := PubSubPayload{
+	inputAlertPayload := data.PubSubPayload{
 		AlertThresholdExceeded: 1.0,
 		CostAmount:             100.01,
 		BudgetAmount:           100.00,

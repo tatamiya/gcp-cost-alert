@@ -7,15 +7,9 @@ import (
 	"log"
 
 	"cloud.google.com/go/pubsub"
+	"github.com/tatamiya/gcp-cost-notification/src/data"
 	"github.com/tatamiya/gcp-cost-notification/src/notification"
 )
-
-type PubSubPayload struct {
-	AlertThresholdExceeded float64 `json:"alertThresholdExceeded"`
-	CostAmount             float64 `json:"costAmount"`
-	BudgetAmount           float64 `json:"budgetAmount"`
-	CurrencyCode           string  `json:"currencyCode"`
-}
 
 type Cost struct {
 	Amount       float64
@@ -67,7 +61,7 @@ type AlertDescription struct {
 	AlertLevel
 }
 
-func NewAlertDescription(payload *PubSubPayload) *AlertDescription {
+func NewAlertDescription(payload *data.PubSubPayload) *AlertDescription {
 	level := newAlertLevel(payload.AlertThresholdExceeded)
 	unit := payload.CurrencyCode
 	charged := payload.CostAmount
@@ -93,7 +87,7 @@ type Notifier interface {
 	Send(message string) error
 }
 
-func alertNotification(payload *PubSubPayload, notifier Notifier) error {
+func alertNotification(payload *data.PubSubPayload, notifier Notifier) error {
 
 	alertDescription := NewAlertDescription(payload)
 	if alertDescription.AlertLevel == Unexpected {
@@ -114,7 +108,7 @@ func alertNotification(payload *PubSubPayload, notifier Notifier) error {
 
 func CostAlert(ctx context.Context, m pubsub.Message) error {
 
-	var payload PubSubPayload
+	var payload data.PubSubPayload
 	if err := json.Unmarshal(m.Data, &payload); err != nil {
 		panic(err)
 	}

@@ -8,6 +8,7 @@ import (
 
 	"cloud.google.com/go/pubsub"
 	"github.com/stretchr/testify/assert"
+	"github.com/tatamiya/gcp-cost-notification/src/data"
 )
 
 func TestCostAlert(t *testing.T) {
@@ -39,7 +40,7 @@ func TestCostAlert(t *testing.T) {
 
 func TestNotificationIsNotSentWhenPayloadIsEmpty(t *testing.T) {
 
-	sampleData := PubSubPayload{}
+	sampleData := data.PubSubPayload{}
 	s, err := json.Marshal(sampleData)
 	m := pubsub.Message{
 		Data: s,
