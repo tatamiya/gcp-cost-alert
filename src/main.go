@@ -1,4 +1,4 @@
-package gcp_cost_alert
+package src
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ type Notifier interface {
 	Send(message string) error
 }
 
-func alertNotification(payload *data.PubSubPayload, notifier Notifier) error {
+func AlertNotification(payload *data.PubSubPayload, notifier Notifier) error {
 
 	alertDescription := alert.NewAlertDescription(payload)
 	if alertDescription.AlertLevel == alert.Unexpected {

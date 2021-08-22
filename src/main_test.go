@@ -1,4 +1,4 @@
-package gcp_cost_alert
+package src
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ func TestRunWholeProcessCorrectly(t *testing.T) {
 	}
 	testNotifier := notifierStub{}
 	expectedMessage := ":fire::fire::fire: 警告 :fire::fire::fire:\n:money_with_wings: GCP 利用額が 100.00 JPY を超過しました！（現在 100.01 JPY）"
-	err := alertNotification(&inputAlertPayload, &testNotifier)
+	err := AlertNotification(&inputAlertPayload, &testNotifier)
 	actualMessage := testNotifier.SentMessage
 
 	assert.Nil(t, err)
@@ -45,7 +45,7 @@ func TestReturnErrorWhenZeroAlertThresholdIsInput(t *testing.T) {
 		CurrencyCode:           "JPY",
 	}
 	testNotifier := notifierStub{}
-	err := alertNotification(&inputAlertPayload, &testNotifier)
+	err := AlertNotification(&inputAlertPayload, &testNotifier)
 
 	assert.NotNil(t, err)
 	assert.EqualValues(
@@ -63,7 +63,7 @@ func TestReturnErrorWhenSlackNotificationFailed(t *testing.T) {
 		CurrencyCode:           "JPY",
 	}
 	testNotifier := notifierStub{Err: fmt.Errorf("Something Wrong!")}
-	err := alertNotification(&inputAlertPayload, &testNotifier)
+	err := AlertNotification(&inputAlertPayload, &testNotifier)
 
 	assert.NotNil(t, err)
 }

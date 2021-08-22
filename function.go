@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	"cloud.google.com/go/pubsub"
+	"github.com/tatamiya/gcp-cost-alert/src"
 	"github.com/tatamiya/gcp-cost-alert/src/data"
 	"github.com/tatamiya/gcp-cost-alert/src/notification"
 )
@@ -22,7 +23,7 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 		return nil
 	}
 	slackNotifier := notification.NewSlackNotifier()
-	err := alertNotification(&payload, slackNotifier)
+	err := src.AlertNotification(&payload, slackNotifier)
 
 	return err
 }
