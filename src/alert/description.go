@@ -3,7 +3,7 @@ package alert
 import (
 	"fmt"
 
-	"github.com/tatamiya/gcp-cost-notification/src/data"
+	"github.com/tatamiya/gcp-cost-alert/src/data"
 )
 
 type AlertDescription struct {

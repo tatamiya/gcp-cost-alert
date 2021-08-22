@@ -7,9 +7,9 @@ import (
 	"log"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/tatamiya/gcp-cost-notification/src/alert"
-	"github.com/tatamiya/gcp-cost-notification/src/data"
-	"github.com/tatamiya/gcp-cost-notification/src/notification"
+	"github.com/tatamiya/gcp-cost-alert/src/alert"
+	"github.com/tatamiya/gcp-cost-alert/src/data"
+	"github.com/tatamiya/gcp-cost-alert/src/notification"
 )
 
 type Notifier interface {

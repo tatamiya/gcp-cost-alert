@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tatamiya/gcp-cost-notification/src/data"
+	"github.com/tatamiya/gcp-cost-alert/src/data"
 )
 
 func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {

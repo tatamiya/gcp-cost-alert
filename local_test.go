@@ -8,7 +8,7 @@ import (
 
 	"cloud.google.com/go/pubsub"
 	"github.com/stretchr/testify/assert"
-	"github.com/tatamiya/gcp-cost-notification/src/data"
+	"github.com/tatamiya/gcp-cost-alert/src/data"
 )
 
 func TestCostAlert(t *testing.T) {
