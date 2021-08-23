@@ -35,11 +35,11 @@ func NewAlertDescription(payload *data.PubSubPayload) *AlertDescription {
 	level := newAlertLevel(exceededThreshold)
 	unit := payload.CurrencyCode
 	charged := payload.CostAmount
-	budget := payload.BudgetAmount * exceededThreshold
+	exceeded := payload.BudgetAmount * exceededThreshold
 
 	return &AlertDescription{
 		Charged:    &Cost{charged, unit},
-		Exceeded:   &Cost{budget, unit},
+		Exceeded:   &Cost{exceeded, unit},
 		AlertLevel: level,
 	}
 }
