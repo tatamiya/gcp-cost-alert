@@ -31,10 +31,11 @@ func (d *AlertDescription) AsMessage() string {
 }
 
 func NewAlertDescription(payload *data.PubSubPayload) *AlertDescription {
-	level := newAlertLevel(payload.AlertThresholdExceeded)
+	alertThreshold := *payload.AlertThresholdExceeded
+	level := newAlertLevel(alertThreshold)
 	unit := payload.CurrencyCode
 	charged := payload.CostAmount
-	budget := payload.BudgetAmount * payload.AlertThresholdExceeded
+	budget := payload.BudgetAmount * alertThreshold
 
 	return &AlertDescription{
 		Charged:    &Cost{charged, unit},

@@ -16,7 +16,7 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 	if err := json.Unmarshal(m.Data, &payload); err != nil {
 		panic(err)
 	}
-	if payload.AlertThresholdExceeded == 0.0 {
+	if payload.AlertThresholdExceeded == nil {
 		// NOTE:
 		// When the amount does not exceed the threshold,
 		// Pub/Sub message does not have this key.

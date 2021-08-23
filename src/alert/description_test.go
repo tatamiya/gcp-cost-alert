@@ -8,8 +8,9 @@ import (
 )
 
 func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
+	alertThreshold := 1.0
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 1.0,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             100.01,
 		BudgetAmount:           100.00,
 		CurrencyCode:           "JPY",
@@ -36,8 +37,9 @@ func TestCreateHighAlertMessageCorrectly(t *testing.T) {
 }
 
 func TestCreateMiddleAlertDescriptionCorrectly(t *testing.T) {
+	alertThreshold := 0.5
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 0.5,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             60.24,
 		BudgetAmount:           100.00,
 		CurrencyCode:           "JPY",
@@ -65,8 +67,9 @@ func TestCreateMiddleAlertMessageCorrectly(t *testing.T) {
 }
 
 func TestCreateLowAlertDescriptionCorrectly(t *testing.T) {
+	alertThreshold := 0.2
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 0.2,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             31.42,
 		BudgetAmount:           100.00,
 		CurrencyCode:           "JPY",
@@ -94,8 +97,9 @@ func TestCreateLowAlertMessageCorrectly(t *testing.T) {
 }
 
 func TestCreateUnexpectedAlertDescriptionCorrectly(t *testing.T) {
+	alertThreshold := 0.0
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 0.0,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             0.00,
 		BudgetAmount:           100.00,
 		CurrencyCode:           "JPY",

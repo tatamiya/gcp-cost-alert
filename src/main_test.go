@@ -22,8 +22,9 @@ func (n *notifierStub) Send(message string) error {
 }
 
 func TestRunWholeProcessCorrectly(t *testing.T) {
+	alertThreshold := 1.0
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 1.0,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             100.01,
 		BudgetAmount:           100.00,
 		CurrencyCode:           "JPY",
@@ -38,8 +39,9 @@ func TestRunWholeProcessCorrectly(t *testing.T) {
 }
 
 func TestReturnErrorWhenZeroAlertThresholdIsInput(t *testing.T) {
+	alertThreshold := 0.0
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 0.0,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             0.00,
 		BudgetAmount:           0.00,
 		CurrencyCode:           "JPY",
@@ -56,8 +58,9 @@ func TestReturnErrorWhenZeroAlertThresholdIsInput(t *testing.T) {
 }
 
 func TestReturnErrorWhenSlackNotificationFailed(t *testing.T) {
+	alertThreshold := 1.0
 	inputAlertPayload := data.PubSubPayload{
-		AlertThresholdExceeded: 1.0,
+		AlertThresholdExceeded: &alertThreshold,
 		CostAmount:             100.01,
 		BudgetAmount:           100.00,
 		CurrencyCode:           "JPY",
