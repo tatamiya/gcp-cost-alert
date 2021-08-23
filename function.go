@@ -18,8 +18,9 @@ func CostAlert(ctx context.Context, m pubsub.Message) error {
 	}
 	if payload.AlertThresholdExceeded == nil {
 		// NOTE:
-		// When the amount does not exceed the threshold,
-		// Pub/Sub message does not have this key.
+		// Even if the charged amount does not exceed the threshold,
+		// Pub/Sub message is sent 2~3 times per hour.
+		// In this case, the payload does not have `alertThresholdExceeded` field.
 		return nil
 	}
 	slackNotifier := notification.NewSlackNotifier()
