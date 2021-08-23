@@ -7,8 +7,8 @@ import (
 )
 
 type AlertDescription struct {
-	Charged *Cost
-	Budget  *Cost
+	Charged  *Cost
+	Exceeded *Cost
 	AlertLevel
 }
 
@@ -24,7 +24,7 @@ func (c *Cost) String() string {
 func (d *AlertDescription) AsMessage() string {
 	headLine := d.headline()
 
-	messageBody := fmt.Sprintf(":money_with_wings: GCP 利用額が %s を超過しました！（現在 %s）", d.Budget, d.Charged)
+	messageBody := fmt.Sprintf(":money_with_wings: GCP 利用額が %s を超過しました！（現在 %s）", d.Exceeded, d.Charged)
 
 	return fmt.Sprintf("%s\n%s", headLine, messageBody)
 
@@ -39,7 +39,7 @@ func NewAlertDescription(payload *data.PubSubPayload) *AlertDescription {
 
 	return &AlertDescription{
 		Charged:    &Cost{charged, unit},
-		Budget:     &Cost{budget, unit},
+		Exceeded:   &Cost{budget, unit},
 		AlertLevel: level,
 	}
 }

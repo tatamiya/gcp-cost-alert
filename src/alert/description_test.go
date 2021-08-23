@@ -17,7 +17,7 @@ func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
 	}
 	expectedAlertDescription := &AlertDescription{
 		Charged:    &Cost{100.01, "JPY"},
-		Budget:     &Cost{100.00, "JPY"},
+		Exceeded:   &Cost{100.00, "JPY"},
 		AlertLevel: High,
 	}
 	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
@@ -27,7 +27,7 @@ func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
 func TestCreateHighAlertMessageCorrectly(t *testing.T) {
 	inputAlertDescription := &AlertDescription{
 		Charged:    &Cost{100.01, "JPY"},
-		Budget:     &Cost{100.00, "JPY"},
+		Exceeded:   &Cost{100.00, "JPY"},
 		AlertLevel: High,
 	}
 
@@ -46,7 +46,7 @@ func TestCreateMiddleAlertDescriptionCorrectly(t *testing.T) {
 	}
 	expectedAlertDescription := &AlertDescription{
 		Charged:    &Cost{60.24, "JPY"},
-		Budget:     &Cost{50.00, "JPY"},
+		Exceeded:   &Cost{50.00, "JPY"},
 		AlertLevel: Middle,
 	}
 	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
@@ -56,7 +56,7 @@ func TestCreateMiddleAlertDescriptionCorrectly(t *testing.T) {
 func TestCreateMiddleAlertMessageCorrectly(t *testing.T) {
 	inputAlertDescription := &AlertDescription{
 		Charged:    &Cost{60.24, "JPY"},
-		Budget:     &Cost{50.00, "JPY"},
+		Exceeded:   &Cost{50.00, "JPY"},
 		AlertLevel: Middle,
 	}
 
@@ -76,7 +76,7 @@ func TestCreateLowAlertDescriptionCorrectly(t *testing.T) {
 	}
 	expectedAlertDescription := &AlertDescription{
 		Charged:    &Cost{31.42, "JPY"},
-		Budget:     &Cost{20.00, "JPY"},
+		Exceeded:   &Cost{20.00, "JPY"},
 		AlertLevel: Low,
 	}
 	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
@@ -86,7 +86,7 @@ func TestCreateLowAlertDescriptionCorrectly(t *testing.T) {
 func TestCreateLowAlertMessageCorrectly(t *testing.T) {
 	inputAlertDescription := &AlertDescription{
 		Charged:    &Cost{31.42, "JPY"},
-		Budget:     &Cost{20.00, "JPY"},
+		Exceeded:   &Cost{20.00, "JPY"},
 		AlertLevel: Low,
 	}
 
@@ -106,7 +106,7 @@ func TestCreateUnexpectedAlertDescriptionCorrectly(t *testing.T) {
 	}
 	expectedAlertDescription := &AlertDescription{
 		Charged:    &Cost{0.00, "JPY"},
-		Budget:     &Cost{0.00, "JPY"},
+		Exceeded:   &Cost{0.00, "JPY"},
 		AlertLevel: Unexpected,
 	}
 	actualAlertDescription := NewAlertDescription(&inputAlertPayload)
