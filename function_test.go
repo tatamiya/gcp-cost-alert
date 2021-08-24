@@ -73,3 +73,13 @@ func TestReturnErrorWhenExceededThresholdHasZeroValue(t *testing.T) {
 	err = CostAlert(context.Background(), m)
 	assert.NotNil(t, err)
 }
+
+func TestPanicWhenPursingPubSubMessageFails(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping")
+	}
+	m := pubsub.Message{
+		Data: []byte(""),
+	}
+	assert.Panics(t, func() { CostAlert(context.Background(), m) })
+}
