@@ -55,3 +55,21 @@ func TestNotificationIsNotSentWhenPayloadIsEmpty(t *testing.T) {
 	err = CostAlert(context.Background(), m)
 	assert.Nil(t, err)
 }
+
+func TestReturnErrorWhenExceededThresholdHasZeroValue(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping")
+	}
+	sampleData := struct {
+		AlertThresholdExceeded float64 `json:"alertThresholdExceeded"`
+	}{
+		AlertThresholdExceeded: 0.0,
+	}
+
+	s, err := json.Marshal(sampleData)
+	m := pubsub.Message{
+		Data: s,
+	}
+	err = CostAlert(context.Background(), m)
+	assert.NotNil(t, err)
+}
