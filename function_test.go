@@ -11,7 +11,7 @@ import (
 	"github.com/tatamiya/gcp-cost-alert/src/data"
 )
 
-func TestCostAlert(t *testing.T) {
+func TestRunCostAlertCorrectly(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping")
 	}
