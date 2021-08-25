@@ -6,10 +6,13 @@ import (
 	"github.com/slack-go/slack"
 )
 
+// SlackNotifier is an object to send an alert message to Slack.
+// It holds a webhook URL to send the message.
 type SlackNotifier struct {
 	webhookURL string
 }
 
+// Send method sends an alert notification message to Slack.
 func (s *SlackNotifier) Send(message string) error {
 	msg := slack.WebhookMessage{
 		Text: message,
@@ -18,6 +21,8 @@ func (s *SlackNotifier) Send(message string) error {
 	return err
 }
 
+// NewSlackNotifier constructs a SlackNotifier object
+// using webhook URL set as an environment variable.
 func NewSlackNotifier() *SlackNotifier {
 	webhookURL := os.Getenv("SLACK_WEBHOOK_URL")
 	return &SlackNotifier{webhookURL: webhookURL}
