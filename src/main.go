@@ -8,10 +8,15 @@ import (
 	"github.com/tatamiya/gcp-cost-alert/src/data"
 )
 
+// Notifier interface receives a notification message
+// and send it to a channel such as Slack.
 type Notifier interface {
 	Send(message string) error
 }
 
+// The core function of this notification system.
+// It receives a parsed Pub/Sub message payload
+// and send a notification message via designated notifier.
 func AlertNotification(payload *data.PubSubPayload, notifier Notifier) error {
 
 	alertDescription := alert.NewAlertDescription(payload)
