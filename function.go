@@ -10,6 +10,9 @@ import (
 	"github.com/tatamiya/gcp-cost-alert/src/notification"
 )
 
+// The function called by Cloud Functions.
+// It receives a Pub/Sub message of budget alert
+// and send a notification message to Slack.
 func CostAlert(ctx context.Context, m pubsub.Message) error {
 
 	var payload data.PubSubPayload
