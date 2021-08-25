@@ -1,5 +1,6 @@
 # gcp-cost-alert
 
+![](architecture.png)
 ![](sample_image.png)
 
 Send alert to Slack when the cost exceeds the threshold set in Cloud Billing.
