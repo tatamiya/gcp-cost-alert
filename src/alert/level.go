@@ -1,5 +1,8 @@
 package alert
 
+// AlertLevel defines the level of the alert
+// based on the exeeded threshold.
+// The headline of a notification message changes with this level.
 type AlertLevel int
 
 const (
