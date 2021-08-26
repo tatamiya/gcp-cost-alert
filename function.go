@@ -1,3 +1,10 @@
+// GCP cost alert notification system to Slack using Cloud Functions.
+//
+// Cloud Functions is triggered when
+// Pub/Sub receives a message from Cloud Billing.
+// When the charged GCP cost is above the threshold
+// you set on Cloud Billing, Cloud Function sends a
+// notification to Slack.
 package gcp_cost_alert
 
 import (
