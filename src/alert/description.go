@@ -1,3 +1,8 @@
+// alert package implements objects to represent the
+// information extracted from the alert massage from Cloud Billing.
+//
+// AlertDescription summarizes the alert message and
+// converts itself into the notification massage sent to Slack.
 package alert
 
 import (
@@ -21,12 +26,12 @@ type Cost struct {
 	CurrencyCode string
 }
 
-// Cost.String() method displays its amount with its unit.
+// String method displays its amount with its unit.
 func (c *Cost) String() string {
 	return fmt.Sprintf("%.2f %s", c.Amount, c.CurrencyCode)
 }
 
-// AlertDescription.AsMessage() creates a notification message sent to Slack.
+// AsMessage creates a notification message sent to Slack.
 func (d *AlertDescription) AsMessage() string {
 	headLine := d.headline()
 
