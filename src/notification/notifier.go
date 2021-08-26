@@ -1,3 +1,4 @@
+// notification implements a struct to send an alert notification to Slack.
 package notification
 
 import (
