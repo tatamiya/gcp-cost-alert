@@ -1,11 +1,18 @@
 package alert
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tatamiya/gcp-cost-alert/src/data"
 )
+
+func ExampleCost_String() {
+	cost := Cost{100.0, "JPY"}
+	fmt.Println(cost.String())
+	// Output: 100.00 JPY
+}
 
 func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
 	exceededThreshold := 1.0
@@ -24,16 +31,18 @@ func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
 	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
 }
 
-func TestCreateHighAlertMessageCorrectly(t *testing.T) {
-	inputAlertDescription := &AlertDescription{
+// Test create high alert message correctly
+func ExampleAlertDescription_AsMessage_high() {
+	alertDescription := &AlertDescription{
 		Charged:    &Cost{100.01, "JPY"},
 		Exceeded:   &Cost{100.00, "JPY"},
 		AlertLevel: High,
 	}
 
-	expectedMessage := ":fire::fire::fire: 警告 :fire::fire::fire:\n:money_with_wings: GCP 利用額が 100.00 JPY を超過しました！（現在 100.01 JPY）"
-	actualOutput := inputAlertDescription.AsMessage()
-	assert.EqualValues(t, expectedMessage, actualOutput)
+	fmt.Println(alertDescription.AsMessage())
+	// Output:
+	// :fire::fire::fire: 警告 :fire::fire::fire:
+	// :money_with_wings: GCP 利用額が 100.00 JPY を超過しました！（現在 100.01 JPY）
 }
 
 func TestCreateMiddleAlertDescriptionCorrectly(t *testing.T) {
