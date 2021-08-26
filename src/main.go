@@ -18,7 +18,7 @@ type Notifier interface {
 	Send(message string) error
 }
 
-// The core function of this notification system.
+// AlertNotification is the core function of this notification system.
 // It receives a parsed Pub/Sub message payload
 // and send a notification message via designated notifier.
 func AlertNotification(payload *data.PubSubPayload, notifier Notifier) error {
