@@ -1,3 +1,7 @@
+// The core function of the notification system.
+//
+// This is called in the CostAlert function
+// after a JSON payload of a Pub/Sub message is parsed.
 package src
 
 import (
