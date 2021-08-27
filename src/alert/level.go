@@ -7,9 +7,9 @@ type AlertLevel int
 
 const (
 	Unexpected AlertLevel = iota
-	Low
-	Middle
-	High
+	Low                   // 0.2 <= threshold < 0.5
+	Middle                // 0.5 <= threshold < 1.0
+	High                  // threshold >= 1.0
 )
 
 func newAlertLevel(threshold float64) AlertLevel {
