@@ -32,7 +32,7 @@ func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
 }
 
 // Test create high alert message correctly
-func ExampleAlertDescription_AsMessage_high() {
+func ExampleAlertDescription_AsMessage() {
 	alertDescription := &AlertDescription{
 		Charged:    &Cost{100.01, "JPY"},
 		Exceeded:   &Cost{100.00, "JPY"},
