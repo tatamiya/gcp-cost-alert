@@ -31,7 +31,7 @@ func TestCreateHighAlertDescriptionCorrectly(t *testing.T) {
 	assert.EqualValues(t, expectedAlertDescription, actualAlertDescription)
 }
 
-// Test create high alert message correctly
+// Create a high alert notification message
 func ExampleAlertDescription_AsMessage() {
 	alertDescription := &AlertDescription{
 		Charged:    &Cost{100.01, "JPY"},
