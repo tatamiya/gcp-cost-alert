@@ -52,7 +52,7 @@ func TestReturnErrorWhenZeroAlertThresholdIsInput(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.EqualValues(
 		t,
-		"Unexpected AlertLevel with charged cost 0.00 JPY!",
+		"Unexpected AlertLevel with AlertThresholdExceeded=0.00!",
 		err.Error(),
 	)
 }

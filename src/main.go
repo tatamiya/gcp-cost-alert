@@ -26,7 +26,7 @@ func AlertNotification(payload *data.PubSubPayload, notifier Notifier) error {
 	alertDescription := alert.NewAlertDescription(payload)
 	if alertDescription.AlertLevel == alert.Unexpected {
 		log.Printf("Unexpected AlertLevel! Input payload: %v", payload)
-		return fmt.Errorf("Unexpected AlertLevel with charged cost %s!", alertDescription.Charged)
+		return fmt.Errorf("Unexpected AlertLevel with AlertThresholdExceeded=%.2f!", *payload.AlertThresholdExceeded)
 	}
 	message := alertDescription.AsMessage()
 
